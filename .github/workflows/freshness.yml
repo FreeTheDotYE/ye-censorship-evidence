@@ -1,0 +1,43 @@
+name: OONI evidence freshness
+
+on:
+  workflow_run:
+    workflows: ["Update OONI evidence"]
+    types: [completed]
+  schedule:
+    - cron: "17 10,18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ooni-evidence-freshness
+  cancel-in-progress: true
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out latest public state
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: main
+          persist-credentials: false
+
+      - name: Reject a failed collector completion
+        if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion != 'success' }}
+        env:
+          COLLECTOR_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+        run: |
+          echo "Collector concluded: ${COLLECTOR_CONCLUSION}" >&2
+          exit 1
+
+      - name: Check last successful current-data collection
+        env:
+          COLLECTOR_CONCLUSION: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion || '' }}
+        run: >-
+          python3 scripts/check_freshness.py
+          --max-age-hours 30
+          --collector-conclusion "${COLLECTOR_CONCLUSION}"

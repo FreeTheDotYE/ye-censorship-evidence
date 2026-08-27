@@ -102,6 +102,30 @@ def write_state(path: Path, state: dict) -> None:
     atomic_write(path, payload)
 
 
+def write_last_success(
+    path: Path,
+    completed_at: datetime,
+    recent_since: date,
+    recent_until: date,
+) -> dict:
+    heartbeat = {
+        "schema_version": 1,
+        "completed_at": completed_at.astimezone(timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z"),
+        "recent_window": {
+            "since": day_string(recent_since),
+            "until": day_string(recent_until),
+        },
+    }
+    atomic_write(
+        path,
+        json.dumps(heartbeat, sort_keys=True, indent=2).encode("utf-8") + b"\n",
+    )
+    return heartbeat
+
+
 def collect_event_window(
     client: OONIClient,
     since: date,
@@ -269,11 +293,18 @@ def run(args: argparse.Namespace) -> dict:
 
     write_state(state_path, state)
     write_derived_outputs(root)
+    heartbeat = write_last_success(
+        root / "state" / "last-success.json",
+        datetime.now(timezone.utc),
+        recent_since,
+        recent_until,
+    )
     return {
         "requests": client.requests,
         "recent_events_received": len(recent),
         "history_events_received": history_count,
         "backfill": state["backfill"],
+        "last_success": heartbeat,
     }
 
 

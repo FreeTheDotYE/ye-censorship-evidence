@@ -1,5 +1,7 @@
 # Yemen censorship and network-interference evidence
 
+[![OONI evidence freshness](https://github.com/FreeTheDotYE/ye-censorship-evidence/actions/workflows/freshness.yml/badge.svg)](https://github.com/FreeTheDotYE/ye-censorship-evidence/actions/workflows/freshness.yml)
+
 This repository preserves reproducible public evidence about Internet censorship and network interference affecting Yemen. It tracks OONI measurements reported from Yemen, retains the complete public summary returned for each flagged measurement, and publishes daily totals needed to interpret those events in context.
 
 The archive is maintained by [FreeTheDotYE](https://freethedotye.org/) as part of its work documenting the misuse of Yemen's Internet resources and infrastructure.
@@ -23,8 +25,11 @@ The repository does not mirror OONI raw measurement bodies. Each event links to 
 - data/aggregates/daily_by_network.csv supplies daily denominators by probe ASN.
 - data/summary.json gives corpus-level counts and date coverage.
 - state/cursor.json records deterministic historical-backfill progress.
+- state/last-success.json records the completion time and exact recent window of
+  the last successful current-data collection, even when it found no anomalies.
 - scripts/update_ooni.py performs bounded recent collection and advances historical 180-day windows within a fixed request budget.
 - scripts/validate.py verifies event checksums, source-summary hashes, ordering, uniqueness, state, and aggregate arithmetic.
+- scripts/check_freshness.py fails when the heartbeat is malformed or more than 30 hours old.
 
 All JSON objects are serialized with sorted keys. Gzip files use a zero timestamp. Re-running against unchanged OONI results therefore produces identical bytes and no Git commit. Event record count and unique measurement count are both published, so a source-summary correction or date-boundary variant cannot silently inflate the number of distinct measurements.
 
@@ -42,7 +47,7 @@ This repository uses only the Python standard library.
     python3 scripts/update_ooni.py
     python3 scripts/validate.py
 
-The scheduled GitHub Action performs the same sequence daily and advances the archive's historical backfill in bounded 180-day windows.
+The scheduled GitHub Action performs the same sequence daily and advances the archive's historical backfill in bounded 180-day windows. An independent read-only workflow checks freshness after every collector completion and at 10:17 and 18:17 UTC without opening issues.
 
 ## Source and licensing
 
