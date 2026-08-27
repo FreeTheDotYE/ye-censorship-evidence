@@ -265,6 +265,7 @@ def run(args: argparse.Namespace) -> dict:
 
     history_count = 0
     history_pages_left = args.history_pages
+    backfill_warning = ""
     while (
         not args.no_backfill
         and not state["backfill"]["complete"]
@@ -273,14 +274,18 @@ def run(args: argparse.Namespace) -> dict:
         backfill = state["backfill"]
         since = parse_day(backfill["since"])
         until = parse_day(backfill["until"])
-        historical, next_offset, pages_used = collect_event_window(
-            client,
-            since,
-            until,
-            offset=int(backfill["offset"]),
-            max_pages=history_pages_left,
-            require_complete=False,
-        )
+        try:
+            historical, next_offset, pages_used = collect_event_window(
+                client,
+                since,
+                until,
+                offset=int(backfill["offset"]),
+                max_pages=history_pages_left,
+                require_complete=False,
+            )
+        except RuntimeError as error:
+            backfill_warning = str(error)
+            break
         history_pages_left -= pages_used
         merge_events(root, historical)
         history_count += len(historical)
@@ -304,6 +309,7 @@ def run(args: argparse.Namespace) -> dict:
         "recent_events_received": len(recent),
         "history_events_received": history_count,
         "backfill": state["backfill"],
+        "backfill_warning": backfill_warning,
         "last_success": heartbeat,
     }
 

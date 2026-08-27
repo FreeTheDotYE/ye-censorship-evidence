@@ -33,6 +33,10 @@ The repository does not mirror OONI raw measurement bodies. Each event links to 
 
 All JSON objects are serialized with sorted keys. Gzip files use a zero timestamp. Re-running against unchanged OONI results therefore produces identical bytes and no Git commit. Event record count and unique measurement count are both published, so a source-summary correction or date-boundary variant cannot silently inflate the number of distinct measurements.
 
+The current-data window is the freshness gate. A transient historical-backfill
+request failure is reported but leaves its cursor unchanged, so it cannot
+suppress a successful current-data heartbeat.
+
 ## Interpreting the evidence
 
 An OONI anomaly is a measurement that warrants investigation; it is not, by itself, conclusive proof of deliberate blocking. A confirmed result carries OONI's confirmation status. Failures may reflect measurement or control failures. Researchers should use the linked raw record, the test methodology, repeated observations, network comparison, and the daily aggregate denominators before making an attribution.
