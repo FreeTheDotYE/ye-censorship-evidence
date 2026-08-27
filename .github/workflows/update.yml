@@ -24,7 +24,7 @@ jobs:
         run: python3 -m unittest discover -s tests -v
 
       - name: Collect current evidence and advance historical backfill
-        run: python3 scripts/update_ooni.py
+        run: python3 scripts/update_ooni.py --history-pages 25 --timeout 30
 
       - name: Validate repository
         run: python3 scripts/validate.py

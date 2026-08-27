@@ -51,7 +51,7 @@ This repository uses only the Python standard library.
     python3 scripts/update_ooni.py
     python3 scripts/validate.py
 
-The scheduled GitHub Action performs the same sequence daily and advances the archive's historical backfill in bounded 180-day windows. An independent read-only workflow checks freshness after every collector completion and at 10:17 and 18:17 UTC without opening issues.
+The scheduled GitHub Action performs the same sequence daily and advances the archive's historical backfill in bounded 180-day windows, processing at most 25 historical pages per run so slow source responses cannot crowd out the current-data heartbeat. An independent read-only workflow checks freshness after every collector completion and at 10:17 and 18:17 UTC without opening issues.
 
 ## Source and licensing
 
