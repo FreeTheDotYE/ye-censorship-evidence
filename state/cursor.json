@@ -1,9 +1,9 @@
 {
   "backfill": {
     "complete": false,
-    "offset": 5100,
-    "since": "2022-05-08",
-    "until": "2022-11-04"
+    "offset": 3600,
+    "since": "2022-11-04",
+    "until": "2023-05-03"
   },
   "schema_version": 1
 }
