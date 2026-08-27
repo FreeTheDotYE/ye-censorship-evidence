@@ -5817,13 +5817,13 @@ day,test_name,measurement_count,ok_count,anomaly_count,confirmed_count,failure_c
 2026-08-27,dash,2,2,0,0,0
 2026-08-27,dnscheck,16,0,0,0,16
 2026-08-27,facebook_messenger,11,11,0,0,0
-2026-08-27,http_header_field_manipulation,12,11,1,0,0
-2026-08-27,http_invalid_request_line,11,10,1,0,0
+2026-08-27,http_header_field_manipulation,13,12,1,0,0
+2026-08-27,http_invalid_request_line,12,11,1,0,0
 2026-08-27,ndt,2,2,0,0,0
 2026-08-27,psiphon,13,13,0,0,0
 2026-08-27,signal,12,10,2,0,0
 2026-08-27,stunreachability,32,9,23,0,0
 2026-08-27,telegram,11,11,0,0,0
-2026-08-27,tor,10,10,0,0,0
+2026-08-27,tor,11,11,0,0,0
 2026-08-27,web_connectivity,941,741,194,0,6
 2026-08-27,whatsapp,11,11,0,0,0
