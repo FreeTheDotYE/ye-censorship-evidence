@@ -1,8 +1,8 @@
 {
-  "completed_at": "2026-09-04T08:05:53Z",
+  "completed_at": "2026-09-05T07:47:05Z",
   "recent_window": {
-    "since": "2026-09-01",
-    "until": "2026-09-05"
+    "since": "2026-09-02",
+    "until": "2026-09-06"
   },
   "schema_version": 1
 }
