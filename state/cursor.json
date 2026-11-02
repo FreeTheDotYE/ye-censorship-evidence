@@ -1,7 +1,7 @@
 {
   "backfill": {
     "complete": false,
-    "offset": 600,
+    "offset": 3100,
     "since": "2024-10-24",
     "until": "2025-04-22"
   },
