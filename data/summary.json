@@ -1,18 +1,18 @@
 {
-  "anomaly_count": 197887,
+  "anomaly_count": 200746,
   "confirmed_count": 111,
   "earliest_event_day": "2017-02-09",
-  "event_count": 197887,
-  "failure_count": 1226,
-  "latest_event_day": "2026-11-13",
+  "event_count": 200746,
+  "failure_count": 1227,
+  "latest_event_day": "2026-11-14",
   "schema_version": 1,
   "scope": {
     "probe_cc": "YE",
     "source": "OONI"
   },
   "source_summary_variant_count": 5,
-  "unique_input_domains": 3083,
-  "unique_measurement_count": 197882,
+  "unique_input_domains": 3087,
+  "unique_measurement_count": 200741,
   "unique_probe_asns": 6,
   "unique_test_names": 14
 }
